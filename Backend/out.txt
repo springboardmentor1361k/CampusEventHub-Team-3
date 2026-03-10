@@ -1,0 +1,17 @@
+Starting tests...
+Register: 201 {
+  user: {
+    name: 'Test Admin',
+    email: 'admin56576@test.com',
+    college: 'Test College',
+    role: 'college_admin',
+    _id: '69aadddadb0b2b3288998050',
+    createdAt: '2026-03-06T13:59:54.065Z',
+    updatedAt: '2026-03-06T13:59:54.065Z',
+    __v: 0
+  }
+}
+Register failed, trying login
+Login: 200 Success
+Create Event: 201 Event created successfully
+Get Events: 200 Found 1 events
