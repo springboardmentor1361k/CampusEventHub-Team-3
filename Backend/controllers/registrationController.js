@@ -6,7 +6,7 @@ const AdminLog = require("../models/AdminLog");
 const registerForEvent = async (req, res) => {
     try {
         const eventId = req.params.id;
-        const userId = req.user._id;
+        const userId = req.user.id;
 
         // Check if event exists
         const event = await Event.findById(eventId);
@@ -84,7 +84,7 @@ const updateRegistrationStatus = async (req, res) => {
         // Log action
         await AdminLog.create({
             action: `Updated registration ${registration._id} to ${status}`,
-            user_id: req.user._id,
+            user_id: req.user.id,
         });
 
         res.status(200).json(registration);

@@ -17,7 +17,7 @@ const eventSchema = new mongoose.Schema(
       type: String,
       required: [true, "Category is required"],
       enum: {
-        values: ["workshop", "seminar", "cultural", "sports", "technical", "other"],
+        values: ["workshop", "seminar", "cultural", "sports", "technical", "hackathon", "other"],
         message: "{VALUE} is not a valid category",
       },
     },

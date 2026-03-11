@@ -5,7 +5,7 @@ const Event = require("../models/Event");
 const submitFeedback = async (req, res) => {
     try {
         const eventId = req.params.id;
-        const userId = req.user._id;
+        const userId = req.user.id;
         const { rating, comments } = req.body;
 
         // Check if event exists
