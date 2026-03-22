@@ -71,6 +71,7 @@ exports.getEvents = async (req, res) => {
         const {
             category,
             college,
+            venue,
             startDate,
             endDate,
             status,
@@ -91,6 +92,11 @@ exports.getEvents = async (req, res) => {
         // College filter
         if (college) {
             filter.college = { $regex: college, $options: "i" };
+        }
+
+        // Venue / location filter
+        if (venue) {
+            filter.venue = { $regex: venue, $options: "i" };
         }
 
         // Date range filter
@@ -268,6 +274,21 @@ exports.deleteEvent = async (req, res) => {
         if (error.kind === "ObjectId") {
             return res.status(400).json({ message: "Invalid event ID" });
         }
+        res.status(500).json({ message: error.message });
+    }
+};
+
+// ✅ GET DISTINCT COLLEGES FROM REGISTERED COLLEGE ADMINS (public)
+exports.getColleges = async (req, res) => {
+    try {
+        const User = require("../models/User");
+        const colleges = await User.distinct("college", {
+            role: "college_admin",
+            college: { $exists: true, $ne: "" },
+        });
+        const sorted = colleges.filter(Boolean).sort((a, b) => a.localeCompare(b));
+        res.json({ colleges: sorted });
+    } catch (error) {
         res.status(500).json({ message: error.message });
     }
 };

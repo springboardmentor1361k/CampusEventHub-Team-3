@@ -6,6 +6,7 @@ const {
     getEventById,
     updateEvent,
     deleteEvent,
+    getColleges,
 } = require("../controllers/eventController");
 const { registerForEvent } = require("../controllers/registrationController");
 const { submitFeedback } = require("../controllers/feedbackController");
@@ -14,6 +15,7 @@ const { authorize } = require("../middleware/roleMiddleware");
 
 // Public routes
 router.get("/", getEvents);
+router.get("/colleges", getColleges);
 router.get("/:id", getEventById);
 
 // Protected student routes
