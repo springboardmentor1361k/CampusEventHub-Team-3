@@ -37,6 +37,19 @@ const registerForEvent = async (req, res) => {
     }
 };
 
+// Get all registrations for the logged in student
+const getMyRegistrations = async (req, res) => {
+    try {
+        if (req.user.role !== "student") {
+            return res.status(403).json({ message: "Only students have personal registrations" });
+        }
+        const registrations = await Registration.find({ user_id: req.user.id });
+        res.status(200).json(registrations);
+    } catch (error) {
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
+
 // Get all registrations for an event (admin only)
 const getEventRegistrations = async (req, res) => {
     try {
@@ -52,7 +65,7 @@ const getEventRegistrations = async (req, res) => {
             return res.status(403).json({ message: "Not authorized to view these registrations" });
         }
 
-        const registrations = await Registration.find({ event_id: eventId }).populate("user_id", "name email");
+        const registrations = await Registration.find({ event_id: eventId }).populate("user_id", "name email college");
         res.status(200).json(registrations);
     } catch (error) {
         res.status(500).json({ message: "Server error", error: error.message });
@@ -68,7 +81,7 @@ const updateRegistrationStatus = async (req, res) => {
             return res.status(400).json({ message: "Invalid status" });
         }
 
-        const registration = await Registration.findById(req.params.id).populate({ path: "event_id", select: "college" });
+        const registration = await Registration.findById(req.params.id).populate({ path: "event_id", select: "college" }).populate("user_id", "name email college");
         if (!registration) {
             return res.status(404).json({ message: "Registration not found" });
         }
@@ -95,6 +108,7 @@ const updateRegistrationStatus = async (req, res) => {
 
 module.exports = {
     registerForEvent,
+    getMyRegistrations,
     getEventRegistrations,
     updateRegistrationStatus,
 };
