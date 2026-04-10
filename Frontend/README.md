@@ -16,5 +16,5 @@ Admin by default:-
  username= admin@demo.com
  password=12345
  admin create events
-
+ - Added admin login reference in documentation for easier testing and contributor onboarding.
 
